@@ -1,0 +1,66 @@
+Ethara Task - Project Setup & Deployment Guide
+
+This document outlines the configuration and deployment steps for the Ethara Task application (FastAPI backend and Next.js frontend).
+
+-------------------------------------------------------------------------------
+1. LOCAL DEVELOPMENT SETUP
+-------------------------------------------------------------------------------
+
+Backend (FastAPI):
+- Navigate to /backend
+- Install dependencies: pip install -r requirements.txt
+- Run local Postgres (e.g., via Docker Compose)
+- Start server: uvicorn app.main:app --reload
+
+Frontend (Next.js):
+- Navigate to /frontend
+- Install dependencies: npm install
+- Create .env.local with: NEXT_PUBLIC_API_URL=http://localhost:8000
+- Start development: npm run dev
+
+-------------------------------------------------------------------------------
+2. DATABASE (RAILWAY POSTGRES)
+-------------------------------------------------------------------------------
+
+If deploying to Railway, ensure you have a Postgres service and copy the 
+"Public Connection URL" for use in the Backend settings.
+
+-------------------------------------------------------------------------------
+3. BACKEND DEPLOYMENT (RAILWAY)
+-------------------------------------------------------------------------------
+
+Service Settings:
+- Root Directory: backend
+- Start Command: uvicorn app.main:app --host 0.0.0.0 --port ${PORT:-8000}
+
+Required Environment Variables:
+- ENVIRONMENT: production
+- DATABASE_URL: postgresql+psycopg://user:pass@host:port/db
+- FRONTEND_URL: https://your-frontend-domain.vercel.app
+- CORS_ALLOWED_ORIGINS: https://your-frontend-domain.vercel.app
+- JWT_SECRET_KEY: (a safe random string)
+- JWT_REFRESH_SECRET_KEY: (another safe random string)
+- COOKIE_SECURE: True
+
+-------------------------------------------------------------------------------
+4. FRONTEND DEPLOYMENT (VERCEL)
+-------------------------------------------------------------------------------
+
+Project Settings:
+- Framework Preset: Next.js
+- Root Directory: frontend
+
+Required Environment Variables:
+- NEXT_PUBLIC_API_URL: https://your-backend-domain.up.railway.app
+  (CRITICAL: No trailing slash at the end of the URL)
+
+-------------------------------------------------------------------------------
+5. TROUBLESHOOTING
+-------------------------------------------------------------------------------
+
+- "Failed to fetch": This is a CORS error. Ensure FRONTEND_URL in Railway 
+  matches your browser URL exactly.
+- "Not authenticated": Connection is active! You just need to log in to access 
+  the dashboard.
+- "404 Not Found": Check that NEXT_PUBLIC_API_URL does not have a trailing 
+  slash and that the Railway Root Directory is set to "backend".
