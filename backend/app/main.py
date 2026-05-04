@@ -7,10 +7,12 @@ from app.routers import auth, dashboard, projects, tasks
 
 app = FastAPI(title=settings.app_name)
 
+# Ensure origins are resolved cleanly
+origins = resolved_cors_origins()
+
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=resolved_cors_origins(),
-    allow_origin_regex=settings.cors_allow_origin_regex,
+    allow_origins=origins or ["*"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
