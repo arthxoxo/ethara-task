@@ -106,7 +106,7 @@ pytest -q
 3. Add backend service from this repo with root directory `backend`
 4. Start command:
    ```bash
-   uvicorn app.main:app --host 0.0.0.0 --port $PORT
+  uvicorn app.main:app --host 0.0.0.0 --port ${PORT:-8000}
    ```
 5. Set backend env vars (`DATABASE_URL`, `JWT_*`, `FRONTEND_URL`, cookie settings)
 6. Deploy frontend service (Railway) with root directory `frontend` and `NEXT_PUBLIC_API_URL`
