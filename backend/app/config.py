@@ -5,10 +5,10 @@ class Settings(BaseSettings):
     model_config = SettingsConfigDict(env_file=".env", env_file_encoding="utf-8", extra="ignore")
 
     app_name: str = "Ethara API"
-    environment: str = "development"
+    environment: str = "production"
 
-    database_url: str = "postgresql+psycopg://postgres:postgres@localhost:5432/ethara"
-    frontend_url: str = "http://localhost:3000"
+    database_url: str = ""
+    frontend_url: str = ""
     cors_allowed_origins: str = ""
     cors_allow_origin_regex: str | None = None
 
@@ -18,7 +18,7 @@ class Settings(BaseSettings):
     refresh_token_expire_days: int = 7
 
     cookie_domain: str | None = None
-    cookie_secure: bool = False
+    cookie_secure: bool = True
 
 
 settings = Settings()
